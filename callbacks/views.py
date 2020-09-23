@@ -1,3 +1,4 @@
+import json
 from uuid import uuid4
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
@@ -48,6 +49,12 @@ class CallbackView(View):
 
     def _request_data(self, request):
         body = request.body.decode("utf-8")
+        #datastore = json.loads(body)
+        #texto = datastore["messages"]
+        #msg = texto[0]["body"]
+        #contato = texto[0]["chatName"]
+        #formated = 'contato: '+contato+'----'+ 'menssagem: '+msg
+        #print(formated)
         return {
             "method": request.method,
             "ip_address": get_ip_address(request),

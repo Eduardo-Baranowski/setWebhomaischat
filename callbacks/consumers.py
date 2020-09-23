@@ -61,8 +61,29 @@ class WebhookConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         # Discard all received data
+        print('aqui1', text_data)
         pass
 
     async def new_request(self, event):
         """Sends all the newly received data on the callback"""
-        await self.send(text_data=json.dumps(event["data"]))
+        text_data = json.dumps(event["data"])
+        datastore = json.loads(text_data)
+        texto = datastore["body"]
+        msg = json.loads(texto)
+        #print('msg', msg)
+        msg1 = msg["messages"]
+        # formated = 'contato: '+contato+'----'+ 'menssagem: '+msg
+        #print(msg1[0]['body'])
+        #print(msg1[0]['chatName'])
+        #jason = "'chatName'"+':'+ "'"+str(msg1[0]['chatName'])+"'"+','+"'body'"+':'+ "'"+str(msg1[0]['body'])+"'"
+        jason = {'chatName': str(msg1[0]['chatName']), 'body': str(msg1[0]['body'])}
+        #jason = json.dumps(jason)
+        #jason = 'jason',jason.replace('"','')
+        msg["messages"] = jason
+        #print('msg formatada', msg)
+
+        text_data = json.loads(text_data)
+        #datastore = json.loads(text_data)
+        text_data["body"] = msg
+        await self.send(text_data=json.dumps(text_data))
+        #print('text_data', text_data)
