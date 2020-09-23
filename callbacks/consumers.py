@@ -80,6 +80,7 @@ class WebhookConsumer(AsyncWebsocketConsumer):
         #jason = json.dumps(jason)
         #jason = 'jason',jason.replace('"','')
         msg["messages"] = jason
+        msg.pop('instanceId', None)
         #print('msg formatada', msg)
 
         text_data = json.loads(text_data)
